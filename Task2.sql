@@ -17,8 +17,8 @@ AS
     BEGIN
 		--Table that contain splited words 
 		DECLARE @TblSplitWord TABLE 
-				(ID INT IDENTITY(1,1),
-				 Word NVARCHAR(50))
+				(ID INT IDENTITY(1,1)
+				 ,Word NVARCHAR(50))
 		
 		--populate data into table
 		INSERT INTO @TblSplitWord 
