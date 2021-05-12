@@ -8,6 +8,7 @@ GO
 		SALARY
 	SQL script should return a person from each department with the biggest salary.
 */
+
 DROP TABLE IF EXISTS SALARY;
  GO
  
@@ -40,3 +41,6 @@ GO
 
 EXEC uspTask10 
 GO
+
+--TODO
+--Must check Salary for employee and salary
