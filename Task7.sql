@@ -40,11 +40,12 @@ AS
 		--populate data in temp table
 		SELECT * INTO #Years FROM CTE_Years
 
-		--
-		SELECT @CountLeapYear = (SELECT COUNT(*) FROM 
-									(SELECT dbo.ufn_IsLeapYear(Yearr) AS RESULT 
-									 FROM #Years
-									 WHERE dbo.ufn_IsLeapYear(Yearr) = 1) AS R)
+		--return count of rows with value 1
+		SELECT @CountLeapYear = (SELECT COUNT(*) 
+									--check if these are leap years
+									FROM (SELECT dbo.ufn_IsLeapYear(Yearr) AS RESULT 
+											 FROM #Years
+											 WHERE dbo.ufn_IsLeapYear(Yearr) = 1) AS R)
 	END
 GO
 
