@@ -15,26 +15,28 @@ GO
 	16/09/2020
 	17/09/2020
 */
+
 DROP PROCEDURE IF EXISTS uspTask5
 GO
 
 CREATE PROCEDURE uspTask5 @StartDate DATE, @EndDate DATE
 AS
 	BEGIN
-		WITH Date_CTE 
-		AS 
-		(SELECT [Date] = @StartDate 
-			UNION ALL 
-		 SELECT [Date] = DATEADD(day, 1, [Date])
-			FROM Date_CTE
-			WHERE [Date] < @EndDate
+		WITH DateRange(CurrDate) AS
+		(
+			SELECT @StartDate AS Date
+			UNION ALL
+			SELECT DATEADD(DAY,1,CurrDate)
+			FROM DateRange
+			WHERE CurrDate < @EndDate
 		)
-		SELECT [Date]
-		FROM Date_CTE
-		--OPTION (MAXRECURSION 0)
+		SELECT CONVERT(VARCHAR, CurrDate, 103)
+			FROM DateRange
+			OPTION (MAXRECURSION 0)
 	END
 GO
 
-EXEC uspTask5 @StartDate = CAST('2014-04-01' AS date)
-			  ,@EndDate=CAST('2014-05-02' AS DATE)
-GO
+DECLARE @StartDate DATE = CONVERT(DATE, '12/09/2020', 103)
+	   ,@EndDate DATE = CONVERT(DATE, '17/09/2020', 103)
+
+EXEC uspTask5 @StartDate, @EndDate
