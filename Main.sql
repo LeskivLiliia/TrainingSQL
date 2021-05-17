@@ -4,6 +4,7 @@ GO
 ----------------------------------------------------------
 --TASK 8
 ----------------------------------------------------------
+--find previos day for [DATE] column
 WITH CTE
 AS
 (
@@ -13,6 +14,7 @@ AS
 		FROM [DATA]
 			   
 )
+--find start and end days for working and sickness days
 ,CTE1
 AS(
 	SELECT FULL_NAME, DAY_TYPE
@@ -22,6 +24,8 @@ AS(
 		GROUP BY FULL_NAME, DAY_TYPE, PreviosDateForGroup
 		ORDER BY 1,3 OFFSET 0 ROWS
 )
+--Select previous DAY_TYPE and SICKNESS_END
+--for find employees which sick from Friday to Monday
 , CTE2
 AS
 (
@@ -32,6 +36,8 @@ AS
 	FROM CTE1
 	ORDER BY 1 OFFSET 0 ROWS
 )
+--Union rows, where DAY_TYPE='Sickness' and LEAD_DAY_TYPE =!'Sickness'
+--With rows, where DAY_TYPE = LEAD_DAY_TYPE 
 SELECT FULL_NAME, SICKNESS_START, SICKNESS_END FROM CTE2 WHERE DAY_TYPE='Sickness' AND LEAD_DAY_TYPE <> 'Sickness'
 UNION ALL
 SELECT FULL_NAME, SICKNESS_START, LEAD_SICKNESS_END FROM CTE2 WHERE DAY_TYPE = LEAD_DAY_TYPE 
